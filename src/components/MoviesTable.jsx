@@ -20,7 +20,9 @@ const MoviesTable = () => {
   const [selectedMovieTitle, setSelectedMovieTitle] = useState("");
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteBtnText, setDeleteBtnText] = useState("Delete");
   const [movieToDelete, setMovieToDelete] = useState(null);
+
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   // const [selectedMovie, setSelectedMovie] = useState(null);
@@ -55,6 +57,7 @@ const MoviesTable = () => {
 
   const handleDelete = (id) => {
     //console.logid, "handleDelete");
+    setDeleteBtnText("Deleting...")
     axios
       .delete(`${import.meta.env.VITE_BACKEND_URL}/movies/deleteMovie/${id}`, {
         headers: {
@@ -64,8 +67,11 @@ const MoviesTable = () => {
       .then((res) => {
         //console.logres);
         setMovies(movies.filter((m) => m._id !== id));
+        setDeleteBtnText("Delete")
+        handleCloseDeleteModal(false)
       })
       .catch((error) => {
+        setDeleteBtnText("Delete")
         console.error("Error deleting movie:", error);
       });
   };
@@ -109,6 +115,7 @@ const MoviesTable = () => {
   };
 
   const handleClose = () => setShowUpdateModal(false);
+  const handleCloseDeleteModal = () => setShowDeleteModal(false);
 
   const handleUpdateMovie = async () => {
     //console.logselectedMovieId, "selectedMovieId");
@@ -259,6 +266,7 @@ setUpdateBtnText("Saving....")
         handleClose={() => setShowDeleteModal(false)}
         handleConfirm={() => handleConfirmDelete()}
         itemName={movieToDelete?.title}
+        deleteBtnText ={deleteBtnText}
       />
 
       <UpdateModal

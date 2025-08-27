@@ -31,6 +31,7 @@ export default function UpdateModal({
                 name="title"
                 value={formDataUpdata.title}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-2">
@@ -40,6 +41,7 @@ export default function UpdateModal({
                 name="description"
                 value={formDataUpdata.description}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-2">
@@ -49,6 +51,7 @@ export default function UpdateModal({
                 name="director"
                 value={formDataUpdata.director}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-2">
@@ -58,6 +61,7 @@ export default function UpdateModal({
                 name="year"
                 value={formDataUpdata.year}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
             <Form.Group>
@@ -67,6 +71,7 @@ export default function UpdateModal({
                 name="genre"
                 value={formDataUpdata.genre}
                 onChange={handleChange}
+                required
               />
             </Form.Group>
           </Form>
@@ -78,7 +83,7 @@ export default function UpdateModal({
           <Button
             variant="primary"
             onClick={handleUpdateMovie}
-            disabled={updateBtnText === "Saving..."}
+            disabled={updateBtnText === "Saving...."}
           >
             {updateBtnText}
           </Button>

@@ -19,7 +19,7 @@ const CommentsModal = ({ movieId, show, handleClose, movieTitle }) => {
           `${import.meta.env.VITE_BACKEND_URL}/movies/getMovie/${movieId}`
         );
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         setComments(data.comments || []);
         setLoaded(true);
       } catch (err) {

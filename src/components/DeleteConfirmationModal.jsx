@@ -1,7 +1,13 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const DeleteConfirmationModal = ({ show, handleClose, handleConfirm, itemName }) => {
+const DeleteConfirmationModal = ({
+  show,
+  handleClose,
+  handleConfirm,
+  itemName,
+  deleteBtnText
+}) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
@@ -18,10 +24,11 @@ const DeleteConfirmationModal = ({ show, handleClose, handleConfirm, itemName })
           variant="danger"
           onClick={() => {
             handleConfirm();
-            handleClose();
+            // handleClose();
           }}
+          disabled = {deleteBtnText === "Deleting..."}
         >
-          Delete
+          {deleteBtnText}
         </Button>
       </Modal.Footer>
     </Modal>

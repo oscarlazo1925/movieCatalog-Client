@@ -23,7 +23,7 @@ const MoviesPage = () => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/movies/getMovies`)
       .then((res) => {
-        console.log(res.data.movies,'res')
+        //console.log.log(res.data.movies,'res')
         setMovies(res.data.movies);
         setLoading(false);
       })

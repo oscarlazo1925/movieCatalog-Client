@@ -57,6 +57,7 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
               name="title"
               value={formData.title}
               onChange={handleChangeAdd}
+              required
             />
           </Form.Group>
           <Form.Group className="mb-2">
@@ -66,6 +67,7 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
               name="description"
               value={formData.description}
               onChange={handleChangeAdd}
+              required
             />
           </Form.Group>
 
@@ -76,6 +78,7 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
               name="genre"
               value={formData.genre}
               onChange={handleChangeAdd}
+              required
             />
           </Form.Group>
 
@@ -86,6 +89,7 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
               name="director"
               value={formData.director}
               onChange={handleChangeAdd}
+              required
             />
           </Form.Group>
 
@@ -96,6 +100,7 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
               name="year"
               value={formData.year}
               onChange={handleChangeAdd}
+              required
             />
           </Form.Group>
         </Form>
