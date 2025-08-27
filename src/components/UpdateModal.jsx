@@ -13,17 +13,17 @@ export default function UpdateModal({
   return (
     <>
       <Modal show={showUpdateModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Update Movie{" "}
-            {formDataUpdata.comments > 0
-              ? formDataUpdata.comments +
-                ` ${formDataUpdata.comments > 1 ? "Comments" : "Comment"}`
-              : ""}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
+        <Form onSubmit={handleUpdateMovie}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              Update Movie{" "}
+              {formDataUpdata.comments > 0
+                ? formDataUpdata.comments +
+                  ` ${formDataUpdata.comments > 1 ? "Comments" : "Comment"}`
+                : ""}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <Form.Group className="mb-2">
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -74,20 +74,21 @@ export default function UpdateModal({
                 required
               />
             </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleUpdateMovie}
-            disabled={updateBtnText === "Saving...."}
-          >
-            {updateBtnText}
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              // onClick={handleUpdateMovie}
+              disabled={updateBtnText === "Saving...."}
+            >
+              {updateBtnText}
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </>
   );

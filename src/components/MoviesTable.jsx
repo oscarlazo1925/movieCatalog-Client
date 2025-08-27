@@ -23,7 +23,6 @@ const MoviesTable = () => {
   const [deleteBtnText, setDeleteBtnText] = useState("Delete");
   const [movieToDelete, setMovieToDelete] = useState(null);
 
-
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   // const [selectedMovie, setSelectedMovie] = useState(null);
   const [formDataUpdata, setFormDataUpdata] = useState({
@@ -57,7 +56,7 @@ const MoviesTable = () => {
 
   const handleDelete = (id) => {
     //console.logid, "handleDelete");
-    setDeleteBtnText("Deleting...")
+    setDeleteBtnText("Deleting...");
     axios
       .delete(`${import.meta.env.VITE_BACKEND_URL}/movies/deleteMovie/${id}`, {
         headers: {
@@ -67,11 +66,11 @@ const MoviesTable = () => {
       .then((res) => {
         //console.logres);
         setMovies(movies.filter((m) => m._id !== id));
-        setDeleteBtnText("Delete")
-        handleCloseDeleteModal(false)
+        setDeleteBtnText("Delete");
+        handleCloseDeleteModal(false);
       })
       .catch((error) => {
-        setDeleteBtnText("Delete")
+        setDeleteBtnText("Delete");
         console.error("Error deleting movie:", error);
       });
   };
@@ -99,12 +98,12 @@ const MoviesTable = () => {
     //console.logmovie, "movie");
     setSelectedMovieId(movie._id);
     setFormDataUpdata({
-      title: movie.title,
-      genre: movie.genre,
-      director: movie.director,
-      year: movie.year,
-      description: movie.description,
-      comments: movie.comments.length,
+      title: movie.title || "",
+      genre: movie.genre || "",
+      director: movie.director || "",
+      year: movie.year || "",
+      description: movie.description || "",
+      comments: movie.comments.length || [],
     });
     setShowUpdateModal(true);
   };
@@ -117,9 +116,10 @@ const MoviesTable = () => {
   const handleClose = () => setShowUpdateModal(false);
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
 
-  const handleUpdateMovie = async () => {
+  const handleUpdateMovie = async (e) => {
     //console.logselectedMovieId, "selectedMovieId");
-setUpdateBtnText("Saving....")
+    e.preventDefault();
+    setUpdateBtnText("Saving....");
     try {
       const token = localStorage.getItem("token"); // or however you store it
 
@@ -149,10 +149,10 @@ setUpdateBtnText("Saving....")
           m._id === selectedMovieId ? { ...m, ...formDataUpdata } : m
         )
       );
-      setUpdateBtnText("Saving Changes")
+      setUpdateBtnText("Saving Changes");
       handleClose();
     } catch (err) {
-      setUpdateBtnText("Saving Changes")
+      setUpdateBtnText("Saving Changes");
       console.error("Update failed:", err);
     }
   };
@@ -266,7 +266,7 @@ setUpdateBtnText("Saving....")
         handleClose={() => setShowDeleteModal(false)}
         handleConfirm={() => handleConfirmDelete()}
         itemName={movieToDelete?.title}
-        deleteBtnText ={deleteBtnText}
+        deleteBtnText={deleteBtnText}
       />
 
       <UpdateModal

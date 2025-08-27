@@ -3,9 +3,10 @@ import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 
 const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
-    const [addBtnText, setAddBtnText] = useState("Add Movie")
+  const [addBtnText, setAddBtnText] = useState("Add Movie");
   const [formData, setFormData] = useState({
     title: "",
+    description: "",
     genre: "",
     director: "",
     year: "",
@@ -15,8 +16,9 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleAddMovie = async () => {
-    setAddBtnText("Saving...")
+  const handleAddMovie = async (e) => {
+    e.preventDefault();
+    setAddBtnText("Saving...");
     try {
       const token = localStorage.getItem("token");
 
@@ -36,20 +38,20 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
 
       handleCloseAddModal(); // close modal
       setFormData({ title: "", genre: "", director: "", year: "" }); // reset form
-      setAddBtnText("Add Movie")
+      setAddBtnText("Add Movie");
     } catch (err) {
       console.error("Failed to add movie:", err);
-      setAddBtnText("Add Movie")
+      setAddBtnText("Add Movie");
     }
   };
 
   return (
     <Modal show={show} onHide={handleCloseAddModal}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add Movie</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
+      <Form onSubmit={handleAddMovie}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Movie</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <Form.Group className="mb-2">
             <Form.Label>Title</Form.Label>
             <Form.Control
@@ -103,20 +105,20 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
               required
             />
           </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseAddModal}>
-          Cancel
-        </Button>
-        <Button
-        variant="primary"
-        onClick={handleAddMovie}
-        disabled = {addBtnText === "Saving..."}
-        >
-          {addBtnText}
-        </Button>
-      </Modal.Footer>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseAddModal}>
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={addBtnText === "Saving..."}
+          >
+            {addBtnText}
+          </Button>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };

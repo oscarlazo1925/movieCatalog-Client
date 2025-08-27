@@ -137,7 +137,7 @@ const MoviesPage = () => {
                       variant="secondary"
                       className="w-100"
                       onClick={() =>
-                        (window.location.href = `/movies/${movie._id}`)
+                        navigate(`/movies/${movie._id}`)
                       }
                     >
                       View Movie

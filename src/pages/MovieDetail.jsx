@@ -15,7 +15,7 @@ const MovieDetail = () => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/movies/getMovie/${id}`)
       .then((res) => {
-        console.log(res, "get movie details");
+        //console.loge.log(res, "get movie details");
         setMovie(res.data);
         setLoading(false);
       })
