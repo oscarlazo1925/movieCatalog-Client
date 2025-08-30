@@ -113,6 +113,7 @@ const AddMovieModal = ({ show, handleCloseAddModal, setMovies }) => {
           <Button
             type="submit"
             variant="primary"
+            id="addMovie"
             disabled={addBtnText === "Saving..."}
           >
             {addBtnText}

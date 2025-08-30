@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
-  const { token, setToken, setUser } = useContext(AuthContext);
+  const { user, token, setToken, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
     setToken(null); // clears state + localStorage
@@ -47,9 +47,7 @@ function Navbar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/admin">
-                    Admin Dash
-                  </Link>
+                   {user?.isAdmin === true && <Link className="nav-link" to="/admin">Admin Dashboard</Link>}
                 </li>
               </>
             ) : (

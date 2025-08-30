@@ -32,14 +32,14 @@ function LoginPage() {
         `${import.meta.env.VITE_BACKEND_URL}/users/login`,
         { email, password }
       );
-      console.log(res.data, "res.data");
+      // console.log(res.data, "res.data");
       // ✅ Save token
       const token = res.data.access;
       setToken(token);
       localStorage.setItem("token", token);
 
       const decoded = decodeToken(token);
-      console.log("Decoded token:", decoded);
+      // console.log("Decoded token:", decoded);
 
       const userInfo = {
         email: decoded.email,

@@ -9,16 +9,22 @@ import {
   Spinner,
   Badge,
   Button,
+  Form,
+  InputGroup,
 } from "react-bootstrap";
 import { ChatQuote, Person } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom"; // ✅ for navigation
+import { useAuth } from "../context/AuthContext";
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState({});
   const navigate = useNavigate(); // ✅ hook for redirect
+  const [commentInputs, setCommentInputs] = useState({}); // ✅ track input per movie
 
+  const { user, token } = useAuth();
+  // console.log(user, user);
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/movies/getMovies`)
@@ -39,6 +45,58 @@ const MoviesPage = () => {
       [id]: !prev[id],
     }));
   };
+
+  //
+  // ✅ Handle typing comment
+  const handleCommentChange = (movieId, value) => {
+    setCommentInputs((prev) => ({
+      ...prev,
+      [movieId]: value,
+    }));
+  };
+
+  // ✅ Handle submit comment
+  const handleAddComment = async (movieId) => {
+    console.log(movieId, "movieId");
+    const commentText = commentInputs[movieId]?.trim();
+    console.log(commentText, "commentText");
+    if (!commentText) return;
+
+    console.log("movieId:", movieId);
+    console.log(
+      "Full URL:",
+      `${import.meta.env.VITE_BACKEND_URL}/movies/addComment/${movieId}`
+    );
+
+    try {
+      const res = await axios.patch(
+        `${import.meta.env.VITE_BACKEND_URL}/movies/addComment/${movieId}`,
+        { comment: commentText, userId: user },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // ✅ Update movies state with new comment without refresh
+    setMovies((prev) =>
+  prev.map((m) =>
+    m._id === movieId ? res.data.updatedMovie : m
+  )
+);
+
+      // ✅ Clear input
+      setCommentInputs((prev) => ({
+        ...prev,
+        [movieId]: "",
+      }));
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
+  };
+  //
 
   if (loading) {
     return (
@@ -112,7 +170,7 @@ const MoviesPage = () => {
                   )}
 
                   {lastFiveComments.length > 0 && (
-                    <div style={{ fontSize: ".8rem" }}>
+                    <div style={{ fontSize: ".8rem" }} className="my-3">
                       <h6>💬 Latest Comments</h6>
                       {lastFiveComments.map((c) => (
                         <div key={c._id}>
@@ -132,16 +190,34 @@ const MoviesPage = () => {
                   )}
 
                   {/* Sticky button at bottom */}
-                  <div className="mt-auto pt-3">
-                    <Button
-                      variant="secondary"
-                      className="w-100"
-                      onClick={() =>
-                        navigate(`/movies/${movie._id}`)
-                      }
-                    >
-                      View Movie
-                    </Button>
+                  <div className="mt-auto">
+                    <InputGroup className="mt-2">
+                      <Form.Control
+                        type="text"
+                        placeholder="Write a comment..."
+                        value={commentInputs[movie._id] || ""}
+                        onChange={(e) =>
+                          handleCommentChange(movie._id, e.target.value)
+                        }
+                      />
+                      <Button
+                        variant="primary"
+                        onClick={() => handleAddComment(movie._id)}
+                      >
+                        Post
+                      </Button>
+                    </InputGroup>
+
+                    {/* Sticky button at bottom */}
+                    <div className="text-center">
+                      <Button
+                        variant="secondary"
+                        className="w-50 mt-3"
+                        onClick={() => navigate(`/movies/${movie._id}`)}
+                      >
+                        View Movie
+                      </Button>
+                    </div>
                   </div>
                 </Card.Body>
               </Card>
